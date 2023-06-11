@@ -39,5 +39,5 @@ app.post("/login", async (req, resp) => {
 
 
 app.listen(port,()=>{
-  console.log(`Example app at http://localhost:${port}`)
+  console.log(`http://localhost:${port}`)
 })
