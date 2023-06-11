@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require("cors")
 require("./db/config")
 const User = require('./db/User')
+const port = process.env.PORT || 5000   
 const app = express();
 
 
@@ -37,4 +38,6 @@ app.post("/login", async (req, resp) => {
 })
 
 
-app.listen(5000);
+app.listen(port,()=>{
+  console.log(`Example app at http://localhost:${port}`)
+})
