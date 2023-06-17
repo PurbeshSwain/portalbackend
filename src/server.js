@@ -12,6 +12,9 @@ app.use(express.json());
 connectDB();
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Hello, Welcome to SAMS Backend");
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', authRoutes);
 
