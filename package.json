@@ -2,10 +2,9 @@
   "name": "portal_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon",
+    "start": "nodemon src/server.js",
     "deploy": "firebase deploy --only function:api"
   },
   "keywords": [],
@@ -13,13 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
+    "dotenv": "^16.3.0",
     "express": "^4.18.2",
-    "hbs": "^4.2.0",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.6.0",
-    "mongoose": "^7.2.3"
+    "mongoose": "^7.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
