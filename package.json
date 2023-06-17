@@ -4,8 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js",
-    "deploy": "firebase deploy --only function:api"
+    "start": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
