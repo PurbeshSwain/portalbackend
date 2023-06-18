@@ -2,17 +2,23 @@ const Student = require('../models/studentModel');
 
 const createStudent = async (req, res) => {
   try {
-    const { name, age, grade } = req.body;
+    const { registrationNumber,firstName,middleName,lastName,
+      gender,dob,category,fatherName,motherName,religion,
+      city,state,country,dist,post,pincode,phoneNo,altNo,parentNo,address,
+    } = req.body;
 
     // Check if a file was uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const photo = req.files.photo;
+    const photo = req.files.image;
     const imageBuffer = photo.data;
 
-    const student = new Student({ name, age, grade, image: imageBuffer });
+    const student = new Student({ registrationNumber,
+       image: imageBuffer,firstName,middleName,lastName,gender,dob,category,fatherName,motherName,religion,
+       city,state,country,dist,post,pincode,phoneNo,altNo,parentNo,address,
+      });
 
     const savedStudent = await student.save();
 
