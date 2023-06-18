@@ -1,12 +1,15 @@
 const express = require('express');
 const connectDB = require('./db');
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(cors());
+app.use(fileUpload());
 
 // Middleware
 app.use(express.json());
@@ -19,7 +22,8 @@ app.get("/", (req, res) => {
   res.send("Hello, Welcome to SAMS Backend");
 });
 app.use('/api/auth', authRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Start the server
 app.listen(port, () => {
