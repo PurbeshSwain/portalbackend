@@ -23,4 +23,16 @@ const createStudent = async (req, res) => {
   }
 };
 
-module.exports = { createStudent };
+// Fetch all students
+const getAllStudents = async (req, res) => {
+  try {
+    const students = await Student.find();
+    res.json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({ error: 'An error occurred while fetching students' });
+  }
+};
+
+
+module.exports = { createStudent, getAllStudents };

@@ -1,10 +1,22 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  age: { type: Number, required: true },
-  grade: { type: String, required: true },
-  image: { type: Buffer },
+  name: {
+    type: String,
+    required: true
+  },
+  age: {
+    type: Number,
+    required: true
+  },
+  grade: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: Buffer,
+    required: true
+  }
 });
 
 const Student = mongoose.model('Student', studentSchema);
