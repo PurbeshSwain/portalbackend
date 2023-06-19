@@ -4,7 +4,7 @@ const createStudent = async (req, res) => {
   try {
     const { registrationNumber,firstName,middleName,lastName,
       gender,dob,category,fatherName,motherName,religion,
-      city,state,country,dist,post,pincode,phoneNo,altNo,parentNo,address,
+      city,state,country,dist,post,pinCode,phoneNo,altNo,parentNo,address,education,branch,year,status,courseFee
     } = req.body;
 
     // Check if a file was uploaded
@@ -17,7 +17,7 @@ const createStudent = async (req, res) => {
 
     const student = new Student({ registrationNumber,
        image: imageBuffer,firstName,middleName,lastName,gender,dob,category,fatherName,motherName,religion,
-       city,state,country,dist,post,pincode,phoneNo,altNo,parentNo,address,
+       city,state,country,dist,post,pinCode,phoneNo,altNo,parentNo,address,education,branch,year,status,courseFee
       });
 
     const savedStudent = await student.save();

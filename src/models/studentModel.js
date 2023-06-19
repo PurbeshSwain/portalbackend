@@ -17,12 +17,17 @@ const studentSchema = new mongoose.Schema({
   country: { type: String, required: true },
   dist: { type: String, required: true },
   post: { type: String, required: true },
-  pincode: { type: Number, required: true },
+  pinCode: { type: Number, required: true },
   phoneNo: { type: Number, required: true },
-  altNo: { type: Number, required: true },
+  altNo: { type: Number, required: false },
   parentNo: { type: Number, required: true },
   address: { type: String, required: true },
-});
+  education: { type: String, required: true },
+  branch: { type: String, required: true },
+  year: { type: String, required: true },
+  status: { type: String, required: true },
+  courseFee: { type: Number, required: true },
+}, { versionKey: false });
 
 const Student = mongoose.model('Student', studentSchema);
 
