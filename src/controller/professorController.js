@@ -3,7 +3,7 @@ const Professor = require('../models/professorModel');
 const createProfessor = async (req, res) => {
   try {
     const { employeeID,firstName,middleName,lastName,
-      // gender,dob,doj,city,state,country,dist,post,pinCode,phoneNo,altNo,email,address,education,department,qualification,position,salary
+      gender,dob,doj,city,state,country,dist,post,pinCode,phoneNo,altNo,email,address,education,department,qualification,position,salary
     } = req.body;
 
     // Check if a file was uploaded
@@ -15,7 +15,7 @@ const createProfessor = async (req, res) => {
     const imageBuffer = photo.data;
 
     const professor = new Professor({  employeeID, image: imageBuffer,firstName,middleName,lastName,
-      // gender,dob,doj,city,state,country,dist,post,pinCode,phoneNo,altNo,email,address,education,department,qualification,position,salary
+      gender,dob,doj,city,state,country,dist,post,pinCode,phoneNo,altNo,email,address,education,department,qualification,position,salary
       });
 
     const savedProfessor = await professor.save();

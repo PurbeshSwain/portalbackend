@@ -8,7 +8,7 @@ const professorSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   gender: { type: String, required: true },
   dob: { type: String, required: true },
-  Doj: { type: String, required: true },
+  doj: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
   country: { type: String, required: true },
