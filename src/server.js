@@ -26,6 +26,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/professor', professorRoutes);
 app.use('/uploads', express.static('uploads'));
+app.post('/api/auth/logout', (req, res) => {
+  res.status(200).json({ message: 'Logout successful' });
+});
+
 
 // Start the server
 app.listen(port, () => {

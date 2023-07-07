@@ -32,8 +32,22 @@ const createStudent = async (req, res) => {
 // Fetch all students
 const getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find();
-    res.json(students);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const countPromise = Student.countDocuments();
+    const studentsPromise = Student.find().skip(skip).limit(limit).lean().exec();
+
+    const [count, students] = await Promise.all([countPromise, studentsPromise]);
+
+    const totalPages = Math.ceil(count / limit);
+
+    res.json({
+      students,
+      currentPage: page,
+      totalPages,
+    });
   } catch (error) {
     console.error('Error fetching students:', error);
     res.status(500).json({ error: 'An error occurred while fetching students' });

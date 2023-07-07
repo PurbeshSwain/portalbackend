@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-  registrationNumber: { type: String, required: false },
+  registrationNumber: { type: String, required: false, unique: true },
   image: { type: Buffer, required: false },
   firstName: { type: String, required: false },
   middleName: { type: String, required: false },
@@ -29,6 +29,8 @@ const studentSchema = new mongoose.Schema({
   status: { type: String, required: false },
   courseFee: { type: Number, required: false },
 }, { versionKey: false });
+
+studentSchema.index({ registrationNumber: 1 }, { unique: true });
 
 const Student = mongoose.model('Student', studentSchema);
 
