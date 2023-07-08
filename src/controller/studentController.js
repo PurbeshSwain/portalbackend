@@ -2,9 +2,9 @@ const Student = require('../models/studentModel');
 
 const createStudent = async (req, res) => {
   try {
-    const { registrationNumber,firstName,middleName,lastName,
-      gender,dob,category,fatherName,motherName,religion,
-      city,state,country,dist,post,pinCode,email,phoneNo,altNo,parentNo,address,education,branch,year,status,courseFee
+    const { registrationNumber, firstName, middleName, lastName,
+      gender, dob, category, fatherName, motherName, religion,
+      city, state, country, dist, post, pinCode, email, phoneNo, altNo, parentNo, address, education, branch, year, status, courseFee
     } = req.body;
 
     // Check if a file was uploaded
@@ -15,10 +15,11 @@ const createStudent = async (req, res) => {
     const photo = req.files.image;
     const imageBuffer = photo.data;
 
-    const student = new Student({ registrationNumber,
-       image: imageBuffer,firstName,middleName,lastName,gender,dob,category,fatherName,motherName,religion,
-       city,state,country,dist,post,pinCode,phoneNo,altNo,parentNo,email,address,education,branch,year,status,courseFee
-      });
+    const student = new Student({
+      registrationNumber,
+      image: imageBuffer, firstName, middleName, lastName, gender, dob, category, fatherName, motherName, religion,
+      city, state, country, dist, post, pinCode, phoneNo, altNo, parentNo, email, address, education, branch, year, status, courseFee
+    });
 
     const savedStudent = await student.save();
 
@@ -33,11 +34,54 @@ const createStudent = async (req, res) => {
 const getAllStudents = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
 
-    const countPromise = Student.countDocuments();
-    const studentsPromise = Student.find().skip(skip).limit(limit).lean().exec();
+    const searchQuery = req.query.searchQuery || '';
+
+    const countPromise = Student.countDocuments({
+      $or: [
+        { registrationNumber: { $regex: searchQuery, $options: 'i' } },
+        { firstName: { $regex: searchQuery, $options: 'i' } },
+        { middleName: { $regex: searchQuery, $options: 'i' } },
+        { lastName: { $regex: searchQuery, $options: 'i' } },
+         {
+          $expr: {
+            $regexMatch: {
+              input: {
+                $concat: ['$firstName',' ','$middleName',' ','$lastName'],
+              },
+              regex: searchQuery,
+              options: 'i',
+            },
+          },
+        },
+      ],
+    });
+    const studentsPromise = Student.find({
+      $or: [
+        { registrationNumber: { $regex: searchQuery, $options: 'i' } },
+        { firstName: { $regex: searchQuery, $options: 'i' } },
+        { middleName: { $regex: searchQuery, $options: 'i' } },
+        { lastName: { $regex: searchQuery, $options: 'i' } },
+         {
+          $expr: {
+            $regexMatch: {
+              input: {
+                $concat: ['$firstName',' ','$middleName',' ','$lastName'],
+              },
+              regex: searchQuery,
+              options: 'i',
+            },
+          },
+        },
+      ],
+    })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+      .sort({ _id: -1 })
+      .exec();
 
     const [count, students] = await Promise.all([countPromise, studentsPromise]);
 
