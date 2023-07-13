@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const professorRoutes = require('./routes/professorRoutes')
+const excelExportRoutes = require('./routes/excelExportRoutes')
 
 const app = express();
 const port = 5000;
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/professor', professorRoutes);
+app.use('/api', excelExportRoutes);
 app.use('/uploads', express.static('uploads'));
 app.post('/api/auth/logout', (req, res) => {
   res.status(200).json({ message: 'Logout successful' });

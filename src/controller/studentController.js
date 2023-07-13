@@ -1,5 +1,8 @@
 const Student = require('../models/studentModel');
 
+
+//Student Addmission
+
 const createStudent = async (req, res) => {
   try {
     const { registrationNumber, firstName, middleName, lastName,
@@ -30,7 +33,10 @@ const createStudent = async (req, res) => {
   }
 };
 
+
+
 // Fetch all students
+
 const getAllStudents = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -45,11 +51,11 @@ const getAllStudents = async (req, res) => {
         { firstName: { $regex: searchQuery, $options: 'i' } },
         { middleName: { $regex: searchQuery, $options: 'i' } },
         { lastName: { $regex: searchQuery, $options: 'i' } },
-         {
+        {
           $expr: {
             $regexMatch: {
               input: {
-                $concat: ['$firstName',' ','$middleName',' ','$lastName'],
+                $concat: ['$firstName', ' ', '$middleName', ' ', '$lastName'],
               },
               regex: searchQuery,
               options: 'i',
@@ -64,11 +70,11 @@ const getAllStudents = async (req, res) => {
         { firstName: { $regex: searchQuery, $options: 'i' } },
         { middleName: { $regex: searchQuery, $options: 'i' } },
         { lastName: { $regex: searchQuery, $options: 'i' } },
-         {
+        {
           $expr: {
             $regexMatch: {
               input: {
-                $concat: ['$firstName',' ','$middleName',' ','$lastName'],
+                $concat: ['$firstName', ' ', '$middleName', ' ', '$lastName'],
               },
               regex: searchQuery,
               options: 'i',
@@ -99,4 +105,58 @@ const getAllStudents = async (req, res) => {
 };
 
 
-module.exports = { createStudent, getAllStudents };
+//Count All Students
+
+const countAllStudents = async (req, res) => {
+  try {
+    const totalCount = await Student.countDocuments();
+    const btechCount = await Student.countDocuments({ education: 'B.Tech' });
+    const cseCount = await Student.countDocuments({ branch: 'Computer Science & Engineering', education: 'B.Tech'  });
+    const civilCount = await Student.countDocuments({  branch: 'Civil Engineering', education: 'B.Tech' });
+    const eeCount = await Student.countDocuments({ branch: 'Electrical Engineering', education: 'B.Tech'  });
+    const eceCount = await Student.countDocuments({ branch: 'Electronics & Communication Engineering', education: 'B.Tech'  });
+    const eeeCount = await Student.countDocuments({ branch: 'Electrical & Electronics Engineering', education: 'B.Tech'  });
+    const mechanicalCount = await Student.countDocuments({ branch: 'Mechanical Engineering', education: 'B.Tech'  });
+
+    const diplomaCount = await Student.countDocuments({ education: 'Diploma' });
+    const meDiplomaCount = await Student.countDocuments({ branch: 'Mechanical Engineering', education: 'Diploma' });
+    const civilDiplomaCount = await Student.countDocuments({ branch: 'Civil Engineering', education: 'Diploma' });
+
+    const mbaCount = await Student.countDocuments({ education: 'MBA' });
+    const fmMbaCount = await Student.countDocuments({ branch: 'Financial Management', education: 'MBA' });
+    const mmMbaCount = await Student.countDocuments({ branch: 'Marketing Management', education: 'MBA' });
+
+    const mtechCount = await Student.countDocuments({ education: 'M.Tech' });
+    const seMtechCount = await Student.countDocuments({ branch: 'Structural Engineering', education: 'M.Tech' });
+    const mseMtechCount = await Student.countDocuments({ branch: 'Mechanical System Engineering', education: 'M.Tech'  });
+
+    res.json({
+      totalCount, btechCount, cseCount, civilCount, eeCount, eceCount, eeeCount,
+      mechanicalCount, diplomaCount, mbaCount, mtechCount,meDiplomaCount,civilDiplomaCount,seMtechCount,
+      mseMtechCount,fmMbaCount,mmMbaCount
+    });
+  } catch (error) {
+    console.error('Error retrieving student count:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+//Delete Student
+const deleteStudent = async (req, res) => {
+  try {
+    const studentId = req.params._id; // Use req.params._id instead of req.params.id
+    const deletedStudent = await Student.findByIdAndDelete(studentId);
+
+    if (!deletedStudent) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    res.json({ message: 'Student deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting student:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+module.exports = { createStudent, getAllStudents, countAllStudents, deleteStudent };
