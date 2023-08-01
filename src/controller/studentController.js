@@ -111,12 +111,12 @@ const countAllStudents = async (req, res) => {
   try {
     const totalCount = await Student.countDocuments();
     const btechCount = await Student.countDocuments({ education: 'B.Tech' });
-    const cseCount = await Student.countDocuments({ branch: 'Computer Science & Engineering', education: 'B.Tech'  });
-    const civilCount = await Student.countDocuments({  branch: 'Civil Engineering', education: 'B.Tech' });
-    const eeCount = await Student.countDocuments({ branch: 'Electrical Engineering', education: 'B.Tech'  });
-    const eceCount = await Student.countDocuments({ branch: 'Electronics & Communication Engineering', education: 'B.Tech'  });
-    const eeeCount = await Student.countDocuments({ branch: 'Electrical & Electronics Engineering', education: 'B.Tech'  });
-    const mechanicalCount = await Student.countDocuments({ branch: 'Mechanical Engineering', education: 'B.Tech'  });
+    const cseCount = await Student.countDocuments({ branch: 'Computer Science & Engineering', education: 'B.Tech' });
+    const civilCount = await Student.countDocuments({ branch: 'Civil Engineering', education: 'B.Tech' });
+    const eeCount = await Student.countDocuments({ branch: 'Electrical Engineering', education: 'B.Tech' });
+    const eceCount = await Student.countDocuments({ branch: 'Electronics & Communication Engineering', education: 'B.Tech' });
+    const eeeCount = await Student.countDocuments({ branch: 'Electrical & Electronics Engineering', education: 'B.Tech' });
+    const mechanicalCount = await Student.countDocuments({ branch: 'Mechanical Engineering', education: 'B.Tech' });
 
     const diplomaCount = await Student.countDocuments({ education: 'Diploma' });
     const meDiplomaCount = await Student.countDocuments({ branch: 'Mechanical Engineering', education: 'Diploma' });
@@ -128,12 +128,12 @@ const countAllStudents = async (req, res) => {
 
     const mtechCount = await Student.countDocuments({ education: 'M.Tech' });
     const seMtechCount = await Student.countDocuments({ branch: 'Structural Engineering', education: 'M.Tech' });
-    const mseMtechCount = await Student.countDocuments({ branch: 'Mechanical System Engineering', education: 'M.Tech'  });
+    const mseMtechCount = await Student.countDocuments({ branch: 'Mechanical System Engineering', education: 'M.Tech' });
 
     res.json({
       totalCount, btechCount, cseCount, civilCount, eeCount, eceCount, eeeCount,
-      mechanicalCount, diplomaCount, mbaCount, mtechCount,meDiplomaCount,civilDiplomaCount,seMtechCount,
-      mseMtechCount,fmMbaCount,mmMbaCount
+      mechanicalCount, diplomaCount, mbaCount, mtechCount, meDiplomaCount, civilDiplomaCount, seMtechCount,
+      mseMtechCount, fmMbaCount, mmMbaCount
     });
   } catch (error) {
     console.error('Error retrieving student count:', error);
@@ -158,5 +158,22 @@ const deleteStudent = async (req, res) => {
   }
 };
 
+//Delete Student
+const getStudentById = async (req, res) => {
+  const studentId = req.params.studentId;
 
-module.exports = { createStudent, getAllStudents, countAllStudents, deleteStudent };
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    res.json(student);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+module.exports = { createStudent, getAllStudents, countAllStudents, deleteStudent,getStudentById };
